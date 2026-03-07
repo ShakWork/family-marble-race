@@ -1,256 +1,306 @@
 ﻿window.RUNNER_MANIFEST = {
-    "generatedAt":  "2026-03-07T16:08:41+02:00",
+    "generatedAt":  "2026-03-07T16:47:01+02:00",
     "count":  50,
     "entries":  [
                     {
                         "id":  1,
                         "file":  "אביגיל.png",
-                        "name":  "אביגיל"
+                        "name":  "אביגיל",
+                        "gender":  "m"
                     },
                     {
                         "id":  2,
                         "file":  "אביתר.png",
-                        "name":  "אביתר"
+                        "name":  "אביתר",
+                        "gender":  "m"
                     },
                     {
                         "id":  3,
                         "file":  "אגם.png",
-                        "name":  "אגם"
+                        "name":  "אגם",
+                        "gender":  "m"
                     },
                     {
                         "id":  4,
                         "file":  "אדל.png",
-                        "name":  "אדל"
+                        "name":  "אדל",
+                        "gender":  "m"
                     },
                     {
                         "id":  5,
                         "file":  "אודיה.png",
-                        "name":  "אודיה"
+                        "name":  "אודיה",
+                        "gender":  "m"
                     },
                     {
                         "id":  6,
                         "file":  "אופיר.png",
-                        "name":  "אופיר"
+                        "name":  "אופיר",
+                        "gender":  "m"
                     },
                     {
                         "id":  7,
                         "file":  "אופל.png",
-                        "name":  "אופל"
+                        "name":  "אופל",
+                        "gender":  "m"
                     },
                     {
                         "id":  8,
                         "file":  "אוריה.png",
-                        "name":  "אוריה"
+                        "name":  "אוריה",
+                        "gender":  "m"
                     },
                     {
                         "id":  9,
                         "file":  "אורן.png",
-                        "name":  "אורן"
+                        "name":  "אורן",
+                        "gender":  "m"
                     },
                     {
                         "id":  10,
                         "file":  "אושר.png",
-                        "name":  "אושר"
+                        "name":  "אושר",
+                        "gender":  "m"
                     },
                     {
                         "id":  11,
                         "file":  "אילן.png",
-                        "name":  "אילן"
+                        "name":  "אילן",
+                        "gender":  "m"
                     },
                     {
                         "id":  12,
                         "file":  "אלי.png",
-                        "name":  "אלי"
+                        "name":  "אלי",
+                        "gender":  "m"
                     },
                     {
                         "id":  13,
                         "file":  "אסיף.png",
-                        "name":  "אסיף"
+                        "name":  "אסיף",
+                        "gender":  "m"
                     },
                     {
                         "id":  14,
                         "file":  "אריאל.png",
-                        "name":  "אריאל"
+                        "name":  "אריאל",
+                        "gender":  "m"
                     },
                     {
                         "id":  15,
                         "file":  "אתי.png",
-                        "name":  "אתי"
+                        "name":  "אתי",
+                        "gender":  "m"
                     },
                     {
                         "id":  16,
                         "file":  "בת-אל.png",
-                        "name":  "בת-אל"
+                        "name":  "בת-אל",
+                        "gender":  "m"
                     },
                     {
                         "id":  17,
                         "file":  "בתיה.png",
-                        "name":  "בתיה"
+                        "name":  "בתיה",
+                        "gender":  "m"
                     },
                     {
                         "id":  18,
                         "file":  "גבי.png",
-                        "name":  "גבי"
+                        "name":  "גבי",
+                        "gender":  "m"
                     },
                     {
                         "id":  19,
                         "file":  "דוד_חיים.png",
-                        "name":  "דוד חיים"
+                        "name":  "דוד חיים",
+                        "gender":  "m"
                     },
                     {
                         "id":  20,
                         "file":  "דודה_אוסי.png",
-                        "name":  "דודה אוסי"
+                        "name":  "דודה אוסי",
+                        "gender":  "m"
                     },
                     {
                         "id":  21,
                         "file":  "דודה_אורה.png",
-                        "name":  "דודה אורה"
+                        "name":  "דודה אורה",
+                        "gender":  "m"
                     },
                     {
                         "id":  22,
                         "file":  "דודה_מירב.png",
-                        "name":  "דודה מירב"
+                        "name":  "דודה מירב",
+                        "gender":  "m"
                     },
                     {
                         "id":  23,
                         "file":  "דודה_סיגל.png",
-                        "name":  "דודה סיגל"
+                        "name":  "דודה סיגל",
+                        "gender":  "m"
                     },
                     {
                         "id":  24,
                         "file":  "דודה_עינת.png",
-                        "name":  "דודה עינת"
+                        "name":  "דודה עינת",
+                        "gender":  "m"
                     },
                     {
                         "id":  25,
                         "file":  "דודה_רויטל.png",
-                        "name":  "דודה רויטל"
+                        "name":  "דודה רויטל",
+                        "gender":  "m"
                     },
                     {
                         "id":  26,
                         "file":  "דודי.png",
-                        "name":  "דודי"
+                        "name":  "דודי",
+                        "gender":  "m"
                     },
                     {
                         "id":  27,
                         "file":  "הללי.png",
-                        "name":  "הללי"
+                        "name":  "הללי",
+                        "gender":  "m"
                     },
                     {
                         "id":  28,
                         "file":  "יוסף.png",
-                        "name":  "יוסף"
+                        "name":  "יוסף",
+                        "gender":  "m"
                     },
                     {
                         "id":  29,
                         "file":  "ישראל.png",
-                        "name":  "ישראל"
+                        "name":  "ישראל",
+                        "gender":  "m"
                     },
                     {
                         "id":  30,
                         "file":  "כרמית.png",
-                        "name":  "כרמית"
+                        "name":  "כרמית",
+                        "gender":  "m"
                     },
                     {
                         "id":  31,
                         "file":  "לביא.png",
-                        "name":  "לביא"
+                        "name":  "לביא",
+                        "gender":  "m"
                     },
                     {
                         "id":  32,
                         "file":  "להב.png",
-                        "name":  "להב"
+                        "name":  "להב",
+                        "gender":  "m"
                     },
                     {
                         "id":  33,
                         "file":  "ליאל.png",
-                        "name":  "ליאל"
+                        "name":  "ליאל",
+                        "gender":  "m"
                     },
                     {
                         "id":  34,
                         "file":  "מזל.png",
-                        "name":  "מזל"
+                        "name":  "מזל",
+                        "gender":  "m"
                     },
                     {
                         "id":  35,
                         "file":  "נאור.png",
-                        "name":  "נאור"
+                        "name":  "נאור",
+                        "gender":  "m"
                     },
                     {
                         "id":  36,
                         "file":  "נוייה.png",
-                        "name":  "נוייה"
+                        "name":  "נוייה",
+                        "gender":  "m"
                     },
                     {
                         "id":  37,
                         "file":  "נפו.png",
-                        "name":  "נפו"
+                        "name":  "נפו",
+                        "gender":  "m"
                     },
                     {
                         "id":  38,
                         "file":  "נתנאל.png",
-                        "name":  "נתנאל"
+                        "name":  "נתנאל",
+                        "gender":  "m"
                     },
                     {
                         "id":  39,
                         "file":  "סבא_דוד.png",
-                        "name":  "סבא דוד"
+                        "name":  "סבא דוד",
+                        "gender":  "m"
                     },
                     {
                         "id":  40,
                         "file":  "סבא_רלו.png",
-                        "name":  "סבא רלו"
+                        "name":  "סבא רלו",
+                        "gender":  "m"
                     },
                     {
                         "id":  41,
                         "file":  "סבתא_איטה.png",
-                        "name":  "סבתא איטה"
+                        "name":  "סבתא איטה",
+                        "gender":  "m"
                     },
                     {
                         "id":  42,
                         "file":  "סבתא_שרה.png",
-                        "name":  "סבתא שרה"
+                        "name":  "סבתא שרה",
+                        "gender":  "m"
                     },
                     {
                         "id":  43,
                         "file":  "עדי.png",
-                        "name":  "עדי"
+                        "name":  "עדי",
+                        "gender":  "m"
                     },
                     {
                         "id":  44,
                         "file":  "עומרי.png",
-                        "name":  "עומרי"
+                        "name":  "עומרי",
+                        "gender":  "m"
                     },
                     {
                         "id":  45,
                         "file":  "עילאי.png",
-                        "name":  "עילאי"
+                        "name":  "עילאי",
+                        "gender":  "m"
                     },
                     {
                         "id":  46,
                         "file":  "רוני.png",
-                        "name":  "רוני"
+                        "name":  "רוני",
+                        "gender":  "m"
                     },
                     {
                         "id":  47,
                         "file":  "שאקל.png",
-                        "name":  "שאקל"
+                        "name":  "שאקל",
+                        "gender":  "m"
                     },
                     {
                         "id":  48,
                         "file":  "שוהם.png",
-                        "name":  "שוהם"
+                        "name":  "שוהם",
+                        "gender":  "m"
                     },
                     {
                         "id":  49,
                         "file":  "שחר.png",
-                        "name":  "שחר"
+                        "name":  "שחר",
+                        "gender":  "m"
                     },
                     {
                         "id":  50,
                         "file":  "תותי.png",
-                        "name":  "תותי"
+                        "name":  "תותי",
+                        "gender":  "m"
                     }
                 ]
 };

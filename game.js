@@ -1230,7 +1230,7 @@ function drawBg() {
   ctx.fillStyle = "#f4f4f5";
   ctx.font = "bold 54px Georgia";
   ctx.textAlign = "right";
-  ctx.fillText(`STAGE ${state.stage || 0}`, WIDTH - 16, 56);
+  ctx.fillText(`שלב ${state.stage || 0}`, WIDTH - 16, 56);
 
   if (state.stageLayout?.title) {
     ctx.font = "bold 22px Segoe UI";
@@ -1787,6 +1787,7 @@ async function bootstrap() {
 }
 
 bootstrap();
+
 
 
 
