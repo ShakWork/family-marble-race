@@ -12,6 +12,7 @@ const ASSIST_DELAY_MS = 20000;
 const ASSIST_RAMP_MS = 45000;
 const ELIMINATION_SHOW_MS = 2300;
 const RUNNER_MANIFEST_PATH = "assets/marbles/manifest.json";
+const VOICE_BASE_PATH = "assets/Voices";
 const ASSIST_CHAOS_INTERVAL_MS = 950;
 const STUCK_TIME_MS = 2200;
 const STUCK_SPEED_EPS = 18;
@@ -42,6 +43,7 @@ const state = {
   speechUnlocked: false,
   speechPrimeTried: false,
   speechToken: 0,
+  activeVoiceAudio: null,
   runnerDefs: [],
   lastChaosPulseMs: 0,
   victoryFx: null,
@@ -246,6 +248,7 @@ function makeRunner(def, index) {
     bounce: 0.16 + Math.random() * 0.12,
     skill: 0.94 + Math.random() * 0.14,
     imageKey: safeDef.file,
+    gender: safeDef.gender || null,
   };
 }
 
@@ -834,6 +837,105 @@ function chooseVoice() {
   );
 }
 
+function buildVoiceNameCandidates(name) {
+  const base = String(name || "").trim();
+  if (!base) {
+    return [];
+  }
+  const variants = new Set([
+    base,
+    base.replace(/\s+/g, "_"),
+    base.replace(/\s+/g, "-"),
+    base.replace(/_/g, " "),
+    base.replace(/-/g, " "),
+  ]);
+  return Array.from(variants).map((v) => `${VOICE_BASE_PATH}/${encodeURIComponent(v)}.mp3`);
+}
+
+function stopActiveVoiceAudio() {
+  if (!state.activeVoiceAudio) {
+    return;
+  }
+  try {
+    state.activeVoiceAudio.pause();
+    state.activeVoiceAudio.currentTime = 0;
+  } catch (_err) {
+  }
+  state.activeVoiceAudio = null;
+}
+
+function playAudioFile(url) {
+  return new Promise((resolve, reject) => {
+    const audio = new Audio(url);
+    state.activeVoiceAudio = audio;
+    audio.preload = "auto";
+    const done = () => {
+      audio.onended = null;
+      audio.onerror = null;
+      if (state.activeVoiceAudio === audio) {
+        state.activeVoiceAudio = null;
+      }
+    };
+    audio.onended = () => {
+      done();
+      resolve(true);
+    };
+    audio.onerror = () => {
+      done();
+      reject(new Error(`audio load failed: ${url}`));
+    };
+    const p = audio.play();
+    if (p && typeof p.then === "function") {
+      p.catch(() => {
+        done();
+        reject(new Error(`audio play failed: ${url}`));
+      });
+    }
+  });
+}
+
+async function tryPlayFirstAvailable(candidates) {
+  for (let i = 0; i < candidates.length; i += 1) {
+    const url = candidates[i];
+    try {
+      await playAudioFile(url);
+      return true;
+    } catch (_err) {
+    }
+  }
+  return false;
+}
+
+async function playRecordedAnnouncement(type, name, gender) {
+  if (type !== "eliminated" && type !== "winner") {
+    return false;
+  }
+
+  stopActiveVoiceAudio();
+
+  if (type === "eliminated") {
+    return tryPlayFirstAvailable(buildVoiceNameCandidates(name));
+  }
+
+  const isFemale = gender === "f";
+  const primary = `${VOICE_BASE_PATH}/${isFemale ? "winner_f.mp3" : "winner_m.mp3"}`;
+  const fallback = `${VOICE_BASE_PATH}/${isFemale ? "winner_m.mp3" : "winner_f.mp3"}`;
+
+  let playedTemplate = false;
+  try {
+    await playAudioFile(primary);
+    playedTemplate = true;
+  } catch (_err) {
+    try {
+      await playAudioFile(fallback);
+      playedTemplate = true;
+    } catch (_err2) {
+    }
+  }
+
+  const playedName = await tryPlayFirstAvailable(buildVoiceNameCandidates(name));
+  return playedTemplate || playedName;
+}
 function primeSpeechIfNeeded() {
   if (!("speechSynthesis" in window) || state.speechPrimeTried) {
     return;
@@ -894,20 +996,24 @@ function speakText(text, delayMs) {
     }
   }, delayMs);
 }
-function announceElimination(name) {
+function announceElimination(name, gender) {
   ensureAudioReady();
   playEliminationChime();
 
-  if (!("speechSynthesis" in window)) {
-    return;
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
   }
 
-  window.speechSynthesis.cancel();
-  const text = `${name}`;
-  speakText(text, 90);
+  playRecordedAnnouncement("eliminated", name, gender).then((played) => {
+    if (played || !("speechSynthesis" in window)) {
+      return;
+    }
+    const text = `${name}`;
+    speakText(text, 90);
+  });
 }
 
-function announceWinner(name) {
+function announceWinner(name, gender) {
   ensureAudioReady();
 
   if (state.audioCtx) {
@@ -928,13 +1034,17 @@ function announceWinner(name) {
     });
   }
 
-  if (!("speechSynthesis" in window)) {
-    return;
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
   }
 
-  window.speechSynthesis.cancel();
-  const text = `${name} הוא המנצח`;
-  speakText(text, 120);
+  playRecordedAnnouncement("winner", name, gender).then((played) => {
+    if (played || !("speechSynthesis" in window)) {
+      return;
+    }
+    const text = `${name} הוא המנצח`;
+    speakText(text, 120);
+  });
 }
 
 function spawnFireworkBurst(cx, cy) {
@@ -1291,7 +1401,7 @@ function finishStage() {
       runner: loser,
       until: performance.now() + ELIMINATION_SHOW_MS,
     };
-    announceElimination(loser.name);
+    announceElimination(loser.name, loser.gender);
   }
 
   if (state.roster.length <= 1 || state.stage >= state.stageLimit) {
@@ -1300,7 +1410,7 @@ function finishStage() {
       ? `המשחק הסתיים - המנצח הוא ${state.winner.name}`
       : "המשחק הסתיים ללא מנצח";
     if (state.winner) {
-      announceWinner(state.winner.name);
+      announceWinner(state.winner.name, state.winner.gender);
       startVictoryEffects(state.winner);
     }
     startBtn.disabled = true;
@@ -1677,6 +1787,11 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+
+
+
+
 
 
 
