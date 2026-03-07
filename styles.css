@@ -1,0 +1,179 @@
+﻿:root {
+  --bg-1: #171717;
+  --bg-2: #262626;
+  --panel: rgba(20, 20, 20, 0.9);
+  --text: #f5f5f5;
+  --accent: #22c55e;
+  --accent-2: #2563eb;
+  --danger: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 20% 0%, #404040, var(--bg-1) 38%),
+    linear-gradient(170deg, var(--bg-2), #0a0a0a);
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h1 {
+  margin: 6px 0 4px;
+}
+
+.subtitle {
+  margin-top: 0;
+  opacity: 0.9;
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: 14px;
+  border: 1px solid #3f3f46;
+  padding: 12px;
+  margin: 12px 0;
+}
+
+.status-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 15px;
+  cursor: pointer;
+  color: white;
+  background: var(--accent-2);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#startBtn {
+  background: var(--accent);
+}
+
+#resetBtn {
+  background: var(--danger);
+}
+
+.track-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+#raceCanvas {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: black;
+  border: 2px solid #52525b;
+}
+
+#eliminationLog {
+  margin: 8px 0 0;
+  padding-inline-start: 20px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 12px;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-panel {
+  width: min(900px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: #121212;
+  border: 1px solid #52525b;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.modal-panel p {
+  margin-top: 0;
+  opacity: 0.9;
+}
+
+.modal-tools,
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+#saveParticipantsBtn {
+  background: var(--accent);
+}
+
+#cancelParticipantsBtn,
+#clearParticipantsBtn {
+  background: #4b5563;
+}
+
+.participants-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.participant-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(38, 38, 38, 0.8);
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.participant-item input {
+  transform: scale(1.1);
+}
+
+@media (max-width: 700px) {
+  .app {
+    padding: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Marble Race</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <h1>Family Marble Race</h1>
+    <p class="subtitle">Marble Race: ירוק = עובר שלב, אדום = חזרה להתחלה של השלב.</p>
+
+    <section class="panel status-panel">
+      <div><strong>שלב:</strong> <span id="stage">0</span> / <span id="stageLimit">50</span></div>
+      <div><strong>נותרו:</strong> <span id="remaining">50</span></div>
+      <div><strong>עברו בשלב:</strong> <span id="qualified">0</span></div>
+      <div><strong>מודח אחרון:</strong> <span id="eliminated">-</span></div>
+      <div><strong>מנצח:</strong> <span id="winner">-</span></div>
+    </section>
+
+    <section class="panel controls">
+      <button id="participantsBtn">בחר משתתפים</button>
+      <button id="startBtn">התחל</button>
+      <button id="nextBtn" disabled>שלב הבא</button>
+      <button id="pauseBtn" disabled>השהה</button>
+      <button id="resetBtn">איפוס</button>
+    </section>
+
+    <section class="panel track-panel">
+      <div class="track-header">
+        <span>מסלול Marble Race</span>
+        <span id="phaseText">מוכן להתחלה</span>
+      </div>
+      <canvas id="raceCanvas" width="1100" height="640" aria-label="Marble race"></canvas>
+    </section>
+
+    <section class="panel">
+      <h2>לוח הדחות</h2>
+      <ol id="eliminationLog"></ol>
+    </section>
+  </main>
+
+  <div id="participantsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="participantsTitle">
+    <div class="modal-panel">
+      <h2 id="participantsTitle">בחירת משתתפים</h2>
+      <p>בחר מי ישתתף במרוץ. מספר השלבים יהיה זהה למספר המשתתפים שנבחרו.</p>
+      <div class="modal-tools">
+        <button id="selectAllParticipantsBtn" type="button">בחר הכל</button>
+        <button id="clearParticipantsBtn" type="button">נקה הכל</button>
+      </div>
+      <div id="participantsList" class="participants-list"></div>
+      <div class="modal-actions">
+        <button id="cancelParticipantsBtn" type="button">ביטול</button>
+        <button id="saveParticipantsBtn" type="button">שמור והתחל מחדש</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/marbles/manifest.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
