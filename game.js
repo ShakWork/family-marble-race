@@ -627,7 +627,7 @@ function generateStageLayout(stageNumber) {
     };
 
   return {
-    title: `Unique Stage ${stageNumber}`,
+    title: `שלב ייחודי ${stageNumber}`,
     spawn,
     goal,
     goalType,
@@ -828,8 +828,8 @@ function chooseVoice() {
     return null;
   }
   return (
-    state.voices.find((v) => /en-US/i.test(v.lang)) ||
-    state.voices.find((v) => /en/i.test(v.lang)) ||
+    state.voices.find((v) => /he-IL/i.test(v.lang)) ||
+    state.voices.find((v) => /^he/i.test(v.lang)) ||
     state.voices[0]
   );
 }
@@ -847,7 +847,7 @@ function primeSpeechIfNeeded() {
       u.voice = voice;
       u.lang = voice.lang;
     } else {
-      u.lang = "en-US";
+      u.lang = "he-IL";
     }
     u.rate = 1;
     u.pitch = 1;
@@ -878,7 +878,7 @@ function speakAttempt(text, token, attempt) {
     u.voice = voice;
     u.lang = voice.lang;
   } else {
-    u.lang = "en-US";
+    u.lang = "he-IL";
   }
   u.rate = 0.82;
   u.pitch = 1;
@@ -927,7 +927,7 @@ function announceElimination(name) {
   }
 
   window.speechSynthesis.cancel();
-  const text = `Eliminated ${name}`;
+  const text = `${name} הודח`;
   speakText(text, 90);
 }
 
@@ -957,7 +957,7 @@ function announceWinner(name) {
   }
 
   window.speechSynthesis.cancel();
-  const text = `And The Winner is ${name}`;
+  const text = `${name} הוא המנצח`;
   speakText(text, 120);
 }
 
@@ -1082,7 +1082,7 @@ function drawVictoryEffects() {
   ctx.fillStyle = "#ffe066";
   ctx.textAlign = "center";
   ctx.font = "bold 46px Segoe UI";
-  ctx.fillText("WINNER!", cx, cy + 165);
+  ctx.fillText("המנצח!", cx, cy + 165);
   ctx.font = "bold 34px Segoe UI";
   ctx.fillText(winner.name, cx, cy + 205);
 }
@@ -1139,7 +1139,7 @@ function drawBg() {
   ctx.fillStyle = "#313131";
   ctx.font = "bold 44px Georgia";
   ctx.textAlign = "left";
-  ctx.fillText("FAMILY MARBLE RACE", 18, 46);
+  ctx.fillText("מרוץ הגולות המשפחתי", 18, 46);
 
   ctx.fillStyle = "#f4f4f5";
   ctx.font = "bold 54px Georgia";
@@ -1281,7 +1281,7 @@ function drawEliminationSpotlight() {
   ctx.fillStyle = "#ffffff";
   ctx.textAlign = "center";
   ctx.font = "bold 42px Segoe UI";
-  ctx.fillText("ELIMINATED", cx, cy + 155);
+  ctx.fillText("הודח", cx, cy + 155);
   ctx.font = "bold 34px Segoe UI";
   ctx.fillText(runner.name, cx, cy + 198);
 }
@@ -1701,6 +1701,7 @@ async function bootstrap() {
 }
 
 bootstrap();
+
 
 
 

@@ -1,266 +1,256 @@
 ﻿window.RUNNER_MANIFEST = {
-    "generatedAt":  "2026-03-06T19:13:12+02:00",
-    "count":  52,
+    "generatedAt":  "2026-03-07T16:08:41+02:00",
+    "count":  50,
     "entries":  [
                     {
                         "id":  1,
-                        "file":  "Addel.png",
-                        "name":  "Addel"
+                        "file":  "אביגיל.png",
+                        "name":  "אביגיל"
                     },
                     {
                         "id":  2,
-                        "file":  "Addi.png",
-                        "name":  "Addi"
+                        "file":  "אביתר.png",
+                        "name":  "אביתר"
                     },
                     {
                         "id":  3,
-                        "file":  "Aggam.png",
-                        "name":  "Aggam"
+                        "file":  "אגם.png",
+                        "name":  "אגם"
                     },
                     {
                         "id":  4,
-                        "file":  "Ariel.png",
-                        "name":  "Ariel"
+                        "file":  "אדל.png",
+                        "name":  "אדל"
                     },
                     {
                         "id":  5,
-                        "file":  "Assif.png",
-                        "name":  "Assif"
+                        "file":  "אודיה.png",
+                        "name":  "אודיה"
                     },
                     {
                         "id":  6,
-                        "file":  "AviGaile.png",
-                        "name":  "AviGaile"
+                        "file":  "אופיר.png",
+                        "name":  "אופיר"
                     },
                     {
                         "id":  7,
-                        "file":  "Bat_El.png",
-                        "name":  "Bat El"
+                        "file":  "אופל.png",
+                        "name":  "אופל"
                     },
                     {
                         "id":  8,
-                        "file":  "Batya.png",
-                        "name":  "Batya"
+                        "file":  "אוריה.png",
+                        "name":  "אוריה"
                     },
                     {
                         "id":  9,
-                        "file":  "Dod_Haim.png",
-                        "name":  "Dod Haim"
+                        "file":  "אורן.png",
+                        "name":  "אורן"
                     },
                     {
                         "id":  10,
-                        "file":  "Doda_Einat.png",
-                        "name":  "Doda Einat"
+                        "file":  "אושר.png",
+                        "name":  "אושר"
                     },
                     {
                         "id":  11,
-                        "file":  "Doda_Meirave.png",
-                        "name":  "Doda Meirave"
+                        "file":  "אילן.png",
+                        "name":  "אילן"
                     },
                     {
                         "id":  12,
-                        "file":  "Doda_Orra.png",
-                        "name":  "Doda Orra"
+                        "file":  "אלי.png",
+                        "name":  "אלי"
                     },
                     {
                         "id":  13,
-                        "file":  "Doda_Ossi.png",
-                        "name":  "Doda Ossi"
+                        "file":  "אסיף.png",
+                        "name":  "אסיף"
                     },
                     {
                         "id":  14,
-                        "file":  "Doda_Revital.png",
-                        "name":  "Doda Revital"
+                        "file":  "אריאל.png",
+                        "name":  "אריאל"
                     },
                     {
                         "id":  15,
-                        "file":  "Doda_Sigal.png",
-                        "name":  "Doda Sigal"
+                        "file":  "אתי.png",
+                        "name":  "אתי"
                     },
                     {
                         "id":  16,
-                        "file":  "Doodi.png",
-                        "name":  "Doodi"
+                        "file":  "בת-אל.png",
+                        "name":  "בת-אל"
                     },
                     {
                         "id":  17,
-                        "file":  "E-La-E.png",
-                        "name":  "E La E"
+                        "file":  "בתיה.png",
+                        "name":  "בתיה"
                     },
                     {
                         "id":  18,
-                        "file":  "E-Lan.png",
-                        "name":  "E Lan"
+                        "file":  "גבי.png",
+                        "name":  "גבי"
                     },
                     {
                         "id":  19,
-                        "file":  "Elli.png",
-                        "name":  "Elli"
+                        "file":  "דוד_חיים.png",
+                        "name":  "דוד חיים"
                     },
                     {
                         "id":  20,
-                        "file":  "Etti.png",
-                        "name":  "Etti"
+                        "file":  "דודה_אוסי.png",
+                        "name":  "דודה אוסי"
                     },
                     {
                         "id":  21,
-                        "file":  "Evyatar.png",
-                        "name":  "Evyatar"
+                        "file":  "דודה_אורה.png",
+                        "name":  "דודה אורה"
                     },
                     {
                         "id":  22,
-                        "file":  "Gabbi.png",
-                        "name":  "Gabbi"
+                        "file":  "דודה_מירב.png",
+                        "name":  "דודה מירב"
                     },
                     {
                         "id":  23,
-                        "file":  "Haleli.png",
-                        "name":  "Haleli"
+                        "file":  "דודה_סיגל.png",
+                        "name":  "דודה סיגל"
                     },
                     {
                         "id":  24,
-                        "file":  "Hodaya.png",
-                        "name":  "Hodaya"
+                        "file":  "דודה_עינת.png",
+                        "name":  "דודה עינת"
                     },
                     {
                         "id":  25,
-                        "file":  "Israel.png",
-                        "name":  "Israel"
+                        "file":  "דודה_רויטל.png",
+                        "name":  "דודה רויטל"
                     },
                     {
                         "id":  26,
-                        "file":  "Karmit.png",
-                        "name":  "Karmit"
+                        "file":  "דודי.png",
+                        "name":  "דודי"
                     },
                     {
                         "id":  27,
-                        "file":  "Lahav.png",
-                        "name":  "Lahav"
+                        "file":  "הללי.png",
+                        "name":  "הללי"
                     },
                     {
                         "id":  28,
-                        "file":  "Lavi.png",
-                        "name":  "Lavi"
+                        "file":  "יוסף.png",
+                        "name":  "יוסף"
                     },
                     {
                         "id":  29,
-                        "file":  "Liel.png",
-                        "name":  "Liel"
+                        "file":  "ישראל.png",
+                        "name":  "ישראל"
                     },
                     {
                         "id":  30,
-                        "file":  "Mazal.png",
-                        "name":  "Mazal"
+                        "file":  "כרמית.png",
+                        "name":  "כרמית"
                     },
                     {
                         "id":  31,
-                        "file":  "Naor.png",
-                        "name":  "Naor"
+                        "file":  "לביא.png",
+                        "name":  "לביא"
                     },
                     {
                         "id":  32,
-                        "file":  "Nappo.png",
-                        "name":  "Nappo"
+                        "file":  "להב.png",
+                        "name":  "להב"
                     },
                     {
                         "id":  33,
-                        "file":  "Netanel.png",
-                        "name":  "Netanel"
+                        "file":  "ליאל.png",
+                        "name":  "ליאל"
                     },
                     {
                         "id":  34,
-                        "file":  "Noya.png",
-                        "name":  "Noya"
+                        "file":  "מזל.png",
+                        "name":  "מזל"
                     },
                     {
                         "id":  35,
-                        "file":  "Offir.png",
-                        "name":  "Offir"
+                        "file":  "נאור.png",
+                        "name":  "נאור"
                     },
                     {
                         "id":  36,
-                        "file":  "Omri.png",
-                        "name":  "Omri"
+                        "file":  "נוייה.png",
+                        "name":  "נוייה"
                     },
                     {
                         "id":  37,
-                        "file":  "Opal.png",
-                        "name":  "Opal"
+                        "file":  "נפו.png",
+                        "name":  "נפו"
                     },
                     {
                         "id":  38,
-                        "file":  "Oren.png",
-                        "name":  "Oren"
+                        "file":  "נתנאל.png",
+                        "name":  "נתנאל"
                     },
                     {
                         "id":  39,
-                        "file":  "Oriya.png",
-                        "name":  "Oriya"
+                        "file":  "סבא_דוד.png",
+                        "name":  "סבא דוד"
                     },
                     {
                         "id":  40,
-                        "file":  "Osher.png",
-                        "name":  "Osher"
+                        "file":  "סבא_רלו.png",
+                        "name":  "סבא רלו"
                     },
                     {
                         "id":  41,
-                        "file":  "Ronni.png",
-                        "name":  "Ronni"
+                        "file":  "סבתא_איטה.png",
+                        "name":  "סבתא איטה"
                     },
                     {
                         "id":  42,
-                        "file":  "Sabba_David.png",
-                        "name":  "Sabba David"
+                        "file":  "סבתא_שרה.png",
+                        "name":  "סבתא שרה"
                     },
                     {
                         "id":  43,
-                        "file":  "Sabba_Rellu.png",
-                        "name":  "Sabba Rellu"
+                        "file":  "עדי.png",
+                        "name":  "עדי"
                     },
                     {
                         "id":  44,
-                        "file":  "Savta_Itah.png",
-                        "name":  "Savta Itah"
+                        "file":  "עומרי.png",
+                        "name":  "עומרי"
                     },
                     {
                         "id":  45,
-                        "file":  "Savta_Sarah.png",
-                        "name":  "Savta Sarah"
+                        "file":  "עילאי.png",
+                        "name":  "עילאי"
                     },
                     {
                         "id":  46,
-                        "file":  "Shahar.png",
-                        "name":  "Shahar"
+                        "file":  "רוני.png",
+                        "name":  "רוני"
                     },
                     {
                         "id":  47,
-                        "file":  "Shakel.png",
-                        "name":  "Shakel"
+                        "file":  "שאקל.png",
+                        "name":  "שאקל"
                     },
                     {
                         "id":  48,
-                        "file":  "Shoham.png",
-                        "name":  "Shoham"
+                        "file":  "שוהם.png",
+                        "name":  "שוהם"
                     },
                     {
                         "id":  49,
-                        "file":  "Toothi.png",
-                        "name":  "Toothi"
+                        "file":  "שחר.png",
+                        "name":  "שחר"
                     },
                     {
                         "id":  50,
-                        "file":  "Yosef.png",
-                        "name":  "Yosef"
-                    },
-                    {
-                        "id":  51,
-                        "file":  "Tova.png",
-                        "name":  "Tova"
-                    },
-                    {
-                        "id":  52,
-                        "file":  "zerocool.png",
-                        "name":  "zerocool"
+                        "file":  "תותי.png",
+                        "name":  "תותי"
                     }
                 ]
 };
