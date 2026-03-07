@@ -866,56 +866,32 @@ function primeSpeechIfNeeded() {
   }
 }
 
-function speakAttempt(text, token, attempt) {
-  if (!("speechSynthesis" in window) || token !== state.speechToken) {
-    return;
-  }
-  refreshVoices();
-  let started = false;
-  const u = new SpeechSynthesisUtterance(text);
-  const voice = chooseVoice();
-  if (voice) {
-    u.voice = voice;
-    u.lang = voice.lang;
-  } else {
-    u.lang = "he-IL";
-  }
-  u.rate = 0.82;
-  u.pitch = 1;
-  u.volume = 1;
-  u.onstart = () => {
-    started = true;
-    state.speechUnlocked = true;
-  };
-  u.onerror = () => {
-    if (token === state.speechToken && attempt < 3) {
-      setTimeout(() => speakAttempt(text, token, attempt + 1), 220);
-    }
-  };
-  try {
-    window.speechSynthesis.resume();
-    window.speechSynthesis.speak(u);
-  } catch (_err) {
-    if (token === state.speechToken && attempt < 3) {
-      setTimeout(() => speakAttempt(text, token, attempt + 1), 220);
-    }
-    return;
-  }
-
-  setTimeout(() => {
-    if (!started && token === state.speechToken && attempt < 3) {
-      speakAttempt(text, token, attempt + 1);
-    }
-  }, 380);
-}
-
 function speakText(text, delayMs) {
   const token = ++state.speechToken;
   setTimeout(() => {
     if (!("speechSynthesis" in window) || token !== state.speechToken) {
       return;
     }
-    speakAttempt(text, token, 1);
+    refreshVoices();
+    const u = new SpeechSynthesisUtterance(text);
+    const voice = chooseVoice();
+    if (voice) {
+      u.voice = voice;
+      u.lang = voice.lang;
+    } else {
+      u.lang = "he-IL";
+    }
+    u.rate = 0.82;
+    u.pitch = 1;
+    u.volume = 1;
+    u.onstart = () => {
+      state.speechUnlocked = true;
+    };
+    try {
+      window.speechSynthesis.resume();
+      window.speechSynthesis.speak(u);
+    } catch (_err) {
+    }
   }, delayMs);
 }
 function announceElimination(name) {
@@ -927,7 +903,7 @@ function announceElimination(name) {
   }
 
   window.speechSynthesis.cancel();
-  const text = `${name} הודח`;
+  const text = `${name}`;
   speakText(text, 90);
 }
 
@@ -1701,6 +1677,7 @@ async function bootstrap() {
 }
 
 bootstrap();
+
 
 
 
