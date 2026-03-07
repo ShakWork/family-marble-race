@@ -39,6 +39,9 @@ const state = {
   autoNextTimer: null,
   audioCtx: null,
   voices: [],
+  speechUnlocked: false,
+  speechPrimeTried: false,
+  speechToken: 0,
   runnerDefs: [],
   lastChaosPulseMs: 0,
   victoryFx: null,
@@ -791,6 +794,7 @@ function ensureAudioReady() {
   if (state.audioCtx && state.audioCtx.state !== "running") {
     state.audioCtx.resume().catch(() => {});
   }
+  primeSpeechIfNeeded();
 }
 
 function playEliminationChime() {
@@ -830,13 +834,14 @@ function chooseVoice() {
   );
 }
 
-function speakText(text, delayMs) {
-  setTimeout(() => {
-    if (!("speechSynthesis" in window)) {
-      return;
-    }
+function primeSpeechIfNeeded() {
+  if (!("speechSynthesis" in window) || state.speechPrimeTried) {
+    return;
+  }
+  state.speechPrimeTried = true;
+  try {
     refreshVoices();
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance("ready");
     const voice = chooseVoice();
     if (voice) {
       u.voice = voice;
@@ -844,14 +849,75 @@ function speakText(text, delayMs) {
     } else {
       u.lang = "en-US";
     }
-    u.rate = 0.78;
+    u.rate = 1;
     u.pitch = 1;
-    u.volume = 1;
+    u.volume = 0.01;
+    u.onstart = () => {
+      state.speechUnlocked = true;
+    };
+    u.onend = () => {
+      state.speechUnlocked = true;
+      window.speechSynthesis.cancel();
+    };
     window.speechSynthesis.resume();
     window.speechSynthesis.speak(u);
-  }, delayMs);
+  } catch (_err) {
+    state.speechPrimeTried = false;
+  }
 }
 
+function speakAttempt(text, token, attempt) {
+  if (!("speechSynthesis" in window) || token !== state.speechToken) {
+    return;
+  }
+  refreshVoices();
+  let started = false;
+  const u = new SpeechSynthesisUtterance(text);
+  const voice = chooseVoice();
+  if (voice) {
+    u.voice = voice;
+    u.lang = voice.lang;
+  } else {
+    u.lang = "en-US";
+  }
+  u.rate = 0.82;
+  u.pitch = 1;
+  u.volume = 1;
+  u.onstart = () => {
+    started = true;
+    state.speechUnlocked = true;
+  };
+  u.onerror = () => {
+    if (token === state.speechToken && attempt < 3) {
+      setTimeout(() => speakAttempt(text, token, attempt + 1), 220);
+    }
+  };
+  try {
+    window.speechSynthesis.resume();
+    window.speechSynthesis.speak(u);
+  } catch (_err) {
+    if (token === state.speechToken && attempt < 3) {
+      setTimeout(() => speakAttempt(text, token, attempt + 1), 220);
+    }
+    return;
+  }
+
+  setTimeout(() => {
+    if (!started && token === state.speechToken && attempt < 3) {
+      speakAttempt(text, token, attempt + 1);
+    }
+  }, 380);
+}
+
+function speakText(text, delayMs) {
+  const token = ++state.speechToken;
+  setTimeout(() => {
+    if (!("speechSynthesis" in window) || token !== state.speechToken) {
+      return;
+    }
+    speakAttempt(text, token, 1);
+  }, delayMs);
+}
 function announceElimination(name) {
   ensureAudioReady();
   playEliminationChime();
@@ -1635,6 +1701,10 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+
+
+
 
 
 
