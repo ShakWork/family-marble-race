@@ -1577,7 +1577,7 @@ function finishStage() {
   if (state.roster.length <= 1 || state.stage >= state.stageLimit) {
     state.winner = state.roster[0] || null;
     phaseTextEl.textContent = state.winner
-      ? `המשחק הסתיים - המנצח הוא ${state.winner.name}`
+      ? `המשחק הסתיים - ${state.winner.gender === "f" ? "המנצחת היא" : "המנצח הוא"} ${state.winner.name}`
       : "המשחק הסתיים ללא מנצח";
     if (state.winner) {
       const waitMs = loser ? 1000 : 0;
