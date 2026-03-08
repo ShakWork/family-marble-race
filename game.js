@@ -1024,8 +1024,7 @@ async function playRecordedAnnouncement(type, name, gender) {
 
   if (type === "eliminated") {
     const playedName = await tryPlayFirstAvailable(buildVoiceNameCandidates(name));
-    const playedTemplate = await tryPlayFirstAvailable(templateCandidates("eliminated"));
-    return playedName || playedTemplate;
+    return playedName;
   }
 
   const playedTemplate = await tryPlayFirstAvailable(templateCandidates("winner"));
@@ -1993,6 +1992,8 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+
 
 
 
