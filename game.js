@@ -97,27 +97,32 @@ function normalizeRunnerEntry(entry, index) {
   const fallbackFile = `brainrot_${String(id).padStart(2, "0")}.png`;
   const imageFile = file || fallbackFile;
   const displayName = String(entry?.name || fileNameToDisplayName(imageFile) || `Brainrot ${id}`).trim();
-  return { id, file: imageFile, name: displayName };
+  const rawGender = String(entry?.gender || "").trim().toLowerCase();
+  const gender = rawGender === "f" || rawGender === "female" || rawGender === "נקבה"
+    ? "f"
+    : "m";
+  return { id, file: imageFile, name: displayName, gender };
 }
 
 async function loadRunnerManifest() {
   try {
+    const res = await fetch(`${RUNNER_MANIFEST_PATH}?v=${Date.now()}`, { cache: "no-store" });
+    if (res.ok) {
+      const json = await res.json();
+      const entries = Array.isArray(json?.entries) ? json.entries : [];
+      if (entries.length) {
+        state.runnerDefs = entries.slice(0, TOTAL_STARTERS).map((entry, idx) => normalizeRunnerEntry(entry, idx));
+        return;
+      }
+    }
+
     const globalManifest = (typeof window !== "undefined" && window.RUNNER_MANIFEST) ? window.RUNNER_MANIFEST : null;
     if (globalManifest && Array.isArray(globalManifest.entries) && globalManifest.entries.length) {
       state.runnerDefs = globalManifest.entries.slice(0, TOTAL_STARTERS).map((entry, idx) => normalizeRunnerEntry(entry, idx));
       return;
     }
 
-    const res = await fetch(`${RUNNER_MANIFEST_PATH}?v=${Date.now()}`, { cache: "no-store" });
-    if (!res.ok) {
-      throw new Error(`manifest http ${res.status}`);
-    }
-    const json = await res.json();
-    const entries = Array.isArray(json?.entries) ? json.entries : [];
-    if (!entries.length) {
-      throw new Error("manifest empty");
-    }
-    state.runnerDefs = entries.slice(0, TOTAL_STARTERS).map((entry, idx) => normalizeRunnerEntry(entry, idx));
+    throw new Error("manifest empty");
   } catch (_err) {
     state.runnerDefs = getDefaultRunnerDefs();
   }
@@ -1985,6 +1990,7 @@ async function bootstrap() {
 }
 
 bootstrap();
+
 
 
 
