@@ -1731,23 +1731,49 @@ function preloadMarbleImages() {
 
   defs.forEach((def) => imageKeys.add(def.file));
 
+  function buildImageCandidates(key) {
+    const raw = String(key || "");
+    const segmentEncoded = raw.split("/").map((part) => encodeURIComponent(part)).join("/");
+    const nfc = raw.normalize("NFC");
+    const nfd = raw.normalize("NFD");
+    const encodedNfc = nfc.split("/").map((part) => encodeURIComponent(part)).join("/");
+    const encodedNfd = nfd.split("/").map((part) => encodeURIComponent(part)).join("/");
+    return Array.from(new Set([
+      `assets/marbles/${raw}`,
+      `assets/marbles/${segmentEncoded}`,
+      `assets/marbles/${nfc}`,
+      `assets/marbles/${encodedNfc}`,
+      `assets/marbles/${nfd}`,
+      `assets/marbles/${encodedNfd}`,
+    ]));
+  }
+
+  function loadImageFromCandidates(img, candidates, idx, onDone) {
+    if (idx >= candidates.length) {
+      onDone(false);
+      return;
+    }
+    img.onload = () => onDone(true);
+    img.onerror = () => loadImageFromCandidates(img, candidates, idx + 1, onDone);
+    img.src = candidates[idx];
+  }
+
   imageKeys.forEach((key) => {
-    const src = `assets/marbles/${key}`;
     const img = new Image();
+    const candidates = buildImageCandidates(key);
     const p = new Promise((resolve) => {
-      img.onload = () => {
-        marbleImages.set(key, img);
+      loadImageFromCandidates(img, candidates, 0, (ok) => {
+        if (ok) {
+          marbleImages.set(key, img);
+        }
         resolve();
-      };
-      img.onerror = () => resolve();
+      });
     });
-    img.src = src;
     promises.push(p);
   });
 
   return Promise.all(promises);
 }
-
 function initGame() {
   if (state.animationId) {
     cancelAnimationFrame(state.animationId);
@@ -1929,6 +1955,7 @@ async function bootstrap() {
 }
 
 bootstrap();
+
 
 
 
