@@ -1108,7 +1108,8 @@ function announceElimination(name, gender) {
   return playRecordedAnnouncement("eliminated", name, gender).then((played) => {
     if (played || !("speechSynthesis" in window)) {
       return true;
-    }    return speakText(`${name}`, 90);
+    }
+    return speakText(`${name}`, 90);
   });
 }
 
@@ -1990,6 +1991,7 @@ async function bootstrap() {
 }
 
 bootstrap();
+
 
 
 
