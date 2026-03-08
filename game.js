@@ -1016,9 +1016,9 @@ async function playRecordedAnnouncement(type, name, gender) {
   }
 
   if (type === "eliminated") {
-    const playedTemplate = await tryPlayFirstAvailable(templateCandidates("eliminated"));
     const playedName = await tryPlayFirstAvailable(buildVoiceNameCandidates(name));
-    return playedTemplate || playedName;
+    const playedTemplate = await tryPlayFirstAvailable(templateCandidates("eliminated"));
+    return playedName || playedTemplate;
   }
 
   const playedTemplate = await tryPlayFirstAvailable(templateCandidates("winner"));
@@ -1553,16 +1553,18 @@ function finishStage() {
   state.lastEliminated = loser || null;
   state.roster = [...state.qualified.map((m) => m.runner)];
 
-  if (loser) {
-    const line = document.createElement("li");
-    line.textContent = `שלב ${state.stage}: ${loser.name} אחרון ולכן הודח`;
-    eliminationLogEl.appendChild(line);
-    state.eliminationSpotlight = {
-      runner: loser,
-      until: performance.now() + ELIMINATION_SHOW_MS,
-    };
-    announceElimination(loser.name, loser.gender);
-  }
+  const eliminationDone = loser
+    ? (() => {
+        const line = document.createElement("li");
+        line.textContent = `שלב ${state.stage}: ${loser.name} אחרון ולכן הודח`;
+        eliminationLogEl.appendChild(line);
+        state.eliminationSpotlight = {
+          runner: loser,
+          until: performance.now() + ELIMINATION_SHOW_MS,
+        };
+        return announceElimination(loser.name, loser.gender);
+      })()
+    : Promise.resolve(true);
 
   if (state.roster.length <= 1 || state.stage >= state.stageLimit) {
     state.winner = state.roster[0] || null;
@@ -1571,10 +1573,13 @@ function finishStage() {
       : "המשחק הסתיים ללא מנצח";
     if (state.winner) {
       const waitMs = loser ? 1000 : 0;
-      setTimeout(() => {
-        announceWinner(state.winner.name, state.winner.gender);
-      }, waitMs);
-      startVictoryEffects(state.winner);
+      eliminationDone.then(() => {
+        setTimeout(() => {
+          announceWinner(state.winner.name, state.winner.gender).then(() => {
+            startVictoryEffects(state.winner);
+          });
+        }, waitMs);
+      });
     }
     startBtn.disabled = true;
     nextBtn.disabled = true;
@@ -1588,12 +1593,14 @@ function finishStage() {
   updateUi();
   draw();
 
-  state.autoNextTimer = setTimeout(() => {
-    state.autoNextTimer = null;
-    if (!state.running && !state.winner && state.roster.length > 1) {
-      startStage();
-    }
-  }, ELIMINATION_SHOW_MS);
+  eliminationDone.then(() => {
+    state.autoNextTimer = setTimeout(() => {
+      state.autoNextTimer = null;
+      if (!state.running && !state.winner && state.roster.length > 1) {
+        startStage();
+      }
+    }, 320);
+  });
 }
 
 function update(dt, elapsedMs, ts) {
@@ -1978,6 +1985,8 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+
 
 
 
