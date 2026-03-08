@@ -1537,6 +1537,7 @@ function drawEliminationSpotlight() {
   ctx.font = "bold 34px Segoe UI";
   ctx.fillText(runner.name, cx, cy + 198);
 
+}
 function draw() {
   drawBg();
   const tSec = state.stageStart + state.lastTs / 1000;
