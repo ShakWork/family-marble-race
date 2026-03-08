@@ -1268,7 +1268,8 @@ function drawVictoryEffects() {
   ctx.fillStyle = "#ffe066";
   ctx.textAlign = "center";
   ctx.font = "bold 46px Segoe UI";
-  ctx.fillText("המנצח!", cx, cy + 165);
+  const winnerLabel = winner.gender === "f" ? "המנצחת!" : "המנצח!";
+  ctx.fillText(winnerLabel, cx, cy + 165);
   ctx.font = "bold 34px Segoe UI";
   ctx.fillText(winner.name, cx, cy + 205);
 }
@@ -1993,6 +1994,8 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+
 
 
 
