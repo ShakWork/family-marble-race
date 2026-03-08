@@ -1533,9 +1533,9 @@ function drawEliminationSpotlight() {
   ctx.textAlign = "center";
   ctx.font = "bold 42px Segoe UI";
   const eliminatedLabel = runner.gender === "f" ? "הודחה" : "הודח";
-  ctx.fillText(eliminatedLabel, cx, cy + 155);
+  ctx.fillText(runner.name, cx, cy + 165);
   ctx.font = "bold 34px Segoe UI";
-  ctx.fillText(runner.name, cx, cy + 198);
+  ctx.fillText(eliminatedLabel, cx, cy + 205);
 
 }
 function draw() {
@@ -1582,9 +1582,10 @@ function finishStage() {
       const waitMs = loser ? 1000 : 0;
       eliminationDone.then(() => {
         setTimeout(() => {
-          announceWinner(state.winner.name, state.winner.gender).then(() => {
-            startVictoryEffects(state.winner);
-          });
+          startVictoryEffects(state.winner);
+          setTimeout(() => {
+            announceWinner(state.winner.name, state.winner.gender);
+          }, 900);
         }, waitMs);
       });
     }
