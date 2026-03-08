@@ -987,27 +987,41 @@ async function playRecordedAnnouncement(type, name, gender) {
   }
 
   stopActiveVoiceAudio();
+  const isFemale = gender === "f";
+
+  function templateCandidates(kind) {
+    if (kind === "eliminated") {
+      const primary = isFemale ? "eliminated_f.mp3" : "eliminated_m.mp3";
+      const fallback = isFemale ? "eliminated_m.mp3" : "eliminated_f.mp3";
+      const hebPrimary = isFemale ? "הודחה.mp3" : "הודח.mp3";
+      const hebFallback = isFemale ? "הודח.mp3" : "הודחה.mp3";
+      return [
+        `${VOICE_BASE_PATH}/${primary}`,
+        `${VOICE_BASE_PATH}/${fallback}`,
+        `${VOICE_BASE_PATH}/${hebPrimary}`,
+        `${VOICE_BASE_PATH}/${hebFallback}`,
+      ];
+    }
+
+    const primary = isFemale ? "winner_f.mp3" : "winner_m.mp3";
+    const fallback = isFemale ? "winner_m.mp3" : "winner_f.mp3";
+    const hebPrimary = isFemale ? "מנצחת.mp3" : "מנצח.mp3";
+    const hebFallback = isFemale ? "מנצח.mp3" : "מנצחת.mp3";
+    return [
+      `${VOICE_BASE_PATH}/${primary}`,
+      `${VOICE_BASE_PATH}/${fallback}`,
+      `${VOICE_BASE_PATH}/${hebPrimary}`,
+      `${VOICE_BASE_PATH}/${hebFallback}`,
+    ];
+  }
 
   if (type === "eliminated") {
-    return tryPlayFirstAvailable(buildVoiceNameCandidates(name));
+    const playedTemplate = await tryPlayFirstAvailable(templateCandidates("eliminated"));
+    const playedName = await tryPlayFirstAvailable(buildVoiceNameCandidates(name));
+    return playedTemplate || playedName;
   }
 
-  const isFemale = gender === "f";
-  const primary = `${VOICE_BASE_PATH}/${isFemale ? "winner_f.mp3" : "winner_m.mp3"}`;
-  const fallback = `${VOICE_BASE_PATH}/${isFemale ? "winner_m.mp3" : "winner_f.mp3"}`;
-
-  let playedTemplate = false;
-  try {
-    await playAudioFile(primary);
-    playedTemplate = true;
-  } catch (_err) {
-    try {
-      await playAudioFile(fallback);
-      playedTemplate = true;
-    } catch (_err2) {
-    }
-  }
-
+  const playedTemplate = await tryPlayFirstAvailable(templateCandidates("winner"));
   const playedName = await tryPlayFirstAvailable(buildVoiceNameCandidates(name));
   return playedTemplate || playedName;
 }
@@ -1044,32 +1058,38 @@ function primeSpeechIfNeeded() {
 }
 
 function speakText(text, delayMs) {
-  const token = ++state.speechToken;
-  setTimeout(() => {
-    if (!("speechSynthesis" in window) || token !== state.speechToken) {
-      return;
-    }
-    refreshVoices();
-    const u = new SpeechSynthesisUtterance(text);
-    const voice = chooseVoice();
-    if (voice) {
-      u.voice = voice;
-      u.lang = voice.lang;
-    } else {
-      u.lang = "he-IL";
-    }
-    u.rate = 0.82;
-    u.pitch = 1;
-    u.volume = 1;
-    u.onstart = () => {
-      state.speechUnlocked = true;
-    };
-    try {
-      window.speechSynthesis.resume();
-      window.speechSynthesis.speak(u);
-    } catch (_err) {
-    }
-  }, delayMs);
+  return new Promise((resolve) => {
+    const token = ++state.speechToken;
+    setTimeout(() => {
+      if (!("speechSynthesis" in window) || token !== state.speechToken) {
+        resolve(false);
+        return;
+      }
+      refreshVoices();
+      const u = new SpeechSynthesisUtterance(text);
+      const voice = chooseVoice();
+      if (voice) {
+        u.voice = voice;
+        u.lang = voice.lang;
+      } else {
+        u.lang = "he-IL";
+      }
+      u.rate = 0.82;
+      u.pitch = 1;
+      u.volume = 1;
+      u.onstart = () => {
+        state.speechUnlocked = true;
+      };
+      u.onend = () => resolve(true);
+      u.onerror = () => resolve(false);
+      try {
+        window.speechSynthesis.resume();
+        window.speechSynthesis.speak(u);
+      } catch (_err) {
+        resolve(false);
+      }
+    }, delayMs);
+  });
 }
 function announceElimination(name, gender) {
   ensureAudioReady();
@@ -1079,12 +1099,12 @@ function announceElimination(name, gender) {
     window.speechSynthesis.cancel();
   }
 
-  playRecordedAnnouncement("eliminated", name, gender).then((played) => {
+  return playRecordedAnnouncement("eliminated", name, gender).then((played) => {
     if (played || !("speechSynthesis" in window)) {
-      return;
+      return true;
     }
-    const text = `${name}`;
-    speakText(text, 90);
+    const suffix = gender === "f" ? "הודחה" : "הודח";
+    return speakText(`${name} ${suffix}`, 90);
   });
 }
 
@@ -1113,12 +1133,12 @@ function announceWinner(name, gender) {
     window.speechSynthesis.cancel();
   }
 
-  playRecordedAnnouncement("winner", name, gender).then((played) => {
+  return playRecordedAnnouncement("winner", name, gender).then((played) => {
     if (played || !("speechSynthesis" in window)) {
-      return;
+      return true;
     }
-    const text = `${name} הוא המנצח`;
-    speakText(text, 120);
+    const title = gender === "f" ? "המנצחת" : "המנצח";
+    return speakText(`${name} ${title}`, 120);
   });
 }
 
@@ -1550,7 +1570,10 @@ function finishStage() {
       ? `המשחק הסתיים - המנצח הוא ${state.winner.name}`
       : "המשחק הסתיים ללא מנצח";
     if (state.winner) {
-      announceWinner(state.winner.name, state.winner.gender);
+      const waitMs = loser ? 1000 : 0;
+      setTimeout(() => {
+        announceWinner(state.winner.name, state.winner.gender);
+      }, waitMs);
       startVictoryEffects(state.winner);
     }
     startBtn.disabled = true;
@@ -1955,6 +1978,9 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+
+
 
 
 
