@@ -371,6 +371,72 @@ function applyCircleCollision(marble, circle, dt, t, elapsedMs) {
   }
 }
 
+function resolveMarbleCollisions(dt) {
+  const minDist = MARBLE_RADIUS * 2;
+  const minDist2 = minDist * minDist;
+
+  for (let i = 0; i < state.marbles.length; i += 1) {
+    const a = state.marbles[i];
+    for (let j = i + 1; j < state.marbles.length; j += 1) {
+      const b = state.marbles[j];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 >= minDist2) {
+        continue;
+      }
+
+      const dist = Math.max(0.001, Math.sqrt(d2));
+      let nx = dx / dist;
+      let ny = dy / dist;
+      if (dist < 0.01) {
+        const aRand = Math.random() * Math.PI * 2;
+        nx = Math.cos(aRand);
+        ny = Math.sin(aRand);
+      }
+
+      const penetration = minDist - dist;
+      const correction = penetration * 0.5;
+      a.x -= nx * correction;
+      a.y -= ny * correction;
+      b.x += nx * correction;
+      b.y += ny * correction;
+
+      const rvx = b.vx - a.vx;
+      const rvy = b.vy - a.vy;
+      const relNormal = rvx * nx + rvy * ny;
+      if (relNormal > 0) {
+        continue;
+      }
+
+      const invMassA = 1 / Math.max(0.4, a.runner.weight);
+      const invMassB = 1 / Math.max(0.4, b.runner.weight);
+      const e = 0.68;
+      const jImpulse = (-(1 + e) * relNormal) / (invMassA + invMassB);
+
+      const impulseX = jImpulse * nx;
+      const impulseY = jImpulse * ny;
+      a.vx -= impulseX * invMassA;
+      a.vy -= impulseY * invMassA;
+      b.vx += impulseX * invMassB;
+      b.vy += impulseY * invMassB;
+
+      const tx = -ny;
+      const ty = nx;
+      const relTangent = rvx * tx + rvy * ty;
+      const tangentDamp = 0.07;
+      a.vx += relTangent * tx * tangentDamp;
+      a.vy += relTangent * ty * tangentDamp;
+      b.vx -= relTangent * tx * tangentDamp;
+      b.vy -= relTangent * ty * tangentDamp;
+
+      a.vx = clamp(a.vx, -820, 820);
+      a.vy = clamp(a.vy, -980, 980);
+      b.vx = clamp(b.vx, -820, 820);
+      b.vy = clamp(b.vy, -980, 980);
+    }
+  }
+}
 function canPlace(centerX, centerY, radius, placed, minGap) {
   for (let i = 0; i < placed.length; i += 1) {
     const p = placed[i];
@@ -405,13 +471,22 @@ function addGear(segments, circles, cx, cy, rng, stage, keepPriority) {
       keepPriority,
     });
   }
+  const coreR = randRange(rng, 17, 24);
   circles.push({
     x: cx,
     y: cy,
-    r: randRange(rng, 17, 24),
+    r: coreR,
     motion: randRange(rng, 0, 1) > 0.5
       ? { type: "horizontal", speed: randRange(rng, 0.8, 1.3), amp: randRange(rng, 8, 24), phase: randRange(rng, 0, Math.PI * 2) }
       : { type: "vertical", speed: randRange(rng, 0.8, 1.3), amp: randRange(rng, 8, 24), phase: randRange(rng, 0, Math.PI * 2) },
+    gear: {
+      teeth: randInt(rng, 10, 16),
+      innerR: coreR + randRange(rng, 9, 13),
+      outerR: coreR + randRange(rng, 16, 24),
+      speed: speed * randRange(rng, 0.65, 1.2),
+      phase: randRange(rng, 0, Math.PI * 2),
+      spokes: randInt(rng, 4, 6),
+    },
     keepPriority,
   });
 }
@@ -1240,6 +1315,67 @@ function drawBg() {
   }
 }
 
+function drawGearVisual(circle, tSec) {
+  const gear = circle.gear;
+  if (!gear) {
+    return;
+  }
+
+  const rot = tSec * gear.speed + gear.phase;
+  const teeth = Math.max(8, gear.teeth | 0);
+  const innerR = Math.max(circle.r + 6, gear.innerR);
+  const outerR = Math.max(innerR + 4, gear.outerR);
+
+  ctx.save();
+  ctx.translate(circle.x, circle.y);
+  ctx.rotate(rot);
+
+  ctx.beginPath();
+  for (let i = 0; i < teeth * 2; i += 1) {
+    const ang = (Math.PI * i) / teeth;
+    const rad = i % 2 === 0 ? outerR : innerR;
+    const x = Math.cos(ang) * rad;
+    const y = Math.sin(ang) * rad;
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+  ctx.closePath();
+  ctx.fillStyle = "#a1a1aa";
+  ctx.strokeStyle = "#d4d4d8";
+  ctx.lineWidth = 2;
+  ctx.lineJoin = "round";
+  ctx.fill();
+  ctx.stroke();
+
+  const spokeCount = Math.max(3, gear.spokes | 0);
+  ctx.strokeStyle = "#5b5b63";
+  ctx.lineWidth = 4;
+  for (let s = 0; s < spokeCount; s += 1) {
+    const a = (Math.PI * 2 * s) / spokeCount;
+    const inX = Math.cos(a) * (circle.r * 0.55);
+    const inY = Math.sin(a) * (circle.r * 0.55);
+    const outX = Math.cos(a) * (innerR - 2);
+    const outY = Math.sin(a) * (innerR - 2);
+    ctx.beginPath();
+    ctx.moveTo(inX, inY);
+    ctx.lineTo(outX, outY);
+    ctx.stroke();
+  }
+
+  ctx.beginPath();
+  ctx.arc(0, 0, circle.r, 0, Math.PI * 2);
+  ctx.fillStyle = "#7a7a86";
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(0, 0, Math.max(4, circle.r * 0.28), 0, Math.PI * 2);
+  ctx.fillStyle = "#2e2e35";
+  ctx.fill();
+
+  ctx.restore();
+}
 function drawLayout(tSec, elapsedMs) {
   if (!state.stageLayout) {
     return;
@@ -1286,6 +1422,10 @@ function drawLayout(tSec, elapsedMs) {
 
   active.circles.forEach((circle) => {
     const c = resolveCircle(circle, tSec);
+    if (c.gear) {
+      drawGearVisual(c, tSec);
+      return;
+    }
     ctx.fillStyle = "#a1a1aa";
     ctx.beginPath();
     ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
@@ -1501,6 +1641,8 @@ function update(dt, elapsedMs, ts) {
       respawn(m, elapsedMs);
     }
   }
+
+  resolveMarbleCollisions(dt);
 
   if (active.profile.active && state.qualified.length < needed && elapsedMs - state.lastChaosPulseMs >= ASSIST_CHAOS_INTERVAL_MS) {
     state.lastChaosPulseMs = elapsedMs;
@@ -1787,6 +1929,9 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+
+
 
 
 
