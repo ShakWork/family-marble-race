@@ -6,7 +6,7 @@
                         "id":  1,
                         "file":  "אביגיל.png",
                         "name":  "אביגיל",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  2,
@@ -18,37 +18,37 @@
                         "id":  3,
                         "file":  "אגם.png",
                         "name":  "אגם",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  4,
                         "file":  "אדל.png",
                         "name":  "אדל",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  5,
                         "file":  "אודיה.png",
                         "name":  "אודיה",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  6,
                         "file":  "אופיר.png",
                         "name":  "אופיר",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  7,
                         "file":  "אופל.png",
                         "name":  "אופל",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  8,
                         "file":  "אוריה.png",
                         "name":  "אוריה",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  9,
@@ -60,7 +60,7 @@
                         "id":  10,
                         "file":  "אושר.png",
                         "name":  "אושר",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  11,
@@ -90,19 +90,19 @@
                         "id":  15,
                         "file":  "אתי.png",
                         "name":  "אתי",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  16,
                         "file":  "בת-אל.png",
                         "name":  "בת-אל",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  17,
                         "file":  "בתיה.png",
                         "name":  "בתיה",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  18,
@@ -120,37 +120,37 @@
                         "id":  20,
                         "file":  "דודה_אוסי.png",
                         "name":  "דודה אוסי",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  21,
                         "file":  "דודה_אורה.png",
                         "name":  "דודה אורה",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  22,
                         "file":  "דודה_מירב.png",
                         "name":  "דודה מירב",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  23,
                         "file":  "דודה_סיגל.png",
                         "name":  "דודה סיגל",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  24,
                         "file":  "דודה_עינת.png",
                         "name":  "דודה עינת",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  25,
                         "file":  "דודה_רויטל.png",
                         "name":  "דודה רויטל",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  26,
@@ -162,7 +162,7 @@
                         "id":  27,
                         "file":  "הללי.png",
                         "name":  "הללי",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  28,
@@ -180,7 +180,7 @@
                         "id":  30,
                         "file":  "כרמית.png",
                         "name":  "כרמית",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  31,
@@ -204,7 +204,7 @@
                         "id":  34,
                         "file":  "מזל.png",
                         "name":  "מזל",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  35,
@@ -216,7 +216,7 @@
                         "id":  36,
                         "file":  "נוייה.png",
                         "name":  "נוייה",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  37,
@@ -246,19 +246,19 @@
                         "id":  41,
                         "file":  "סבתא_איטה.png",
                         "name":  "סבתא איטה",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  42,
                         "file":  "סבתא_שרה.png",
                         "name":  "סבתא שרה",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  43,
                         "file":  "עדי.png",
                         "name":  "עדי",
-                        "gender":  "m"
+                        "gender":  "f"
                     },
                     {
                         "id":  44,
