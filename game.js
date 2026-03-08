@@ -106,28 +106,30 @@ function normalizeRunnerEntry(entry, index) {
 
 async function loadRunnerManifest() {
   try {
-    const res = await fetch(`${RUNNER_MANIFEST_PATH}?v=${Date.now()}`, { cache: "no-store" });
-    if (res.ok) {
-      const json = await res.json();
-      const entries = Array.isArray(json?.entries) ? json.entries : [];
-      if (entries.length) {
-        state.runnerDefs = entries.slice(0, TOTAL_STARTERS).map((entry, idx) => normalizeRunnerEntry(entry, idx));
-        return;
+    let entries = [];
+    try {
+      const res = await fetch(`${RUNNER_MANIFEST_PATH}?v=${Date.now()}`, { cache: "no-store" });
+      if (res.ok) {
+        const json = await res.json();
+        entries = Array.isArray(json?.entries) ? json.entries : [];
       }
+    } catch (_fetchErr) {
     }
 
-    const globalManifest = (typeof window !== "undefined" && window.RUNNER_MANIFEST) ? window.RUNNER_MANIFEST : null;
-    if (globalManifest && Array.isArray(globalManifest.entries) && globalManifest.entries.length) {
-      state.runnerDefs = globalManifest.entries.slice(0, TOTAL_STARTERS).map((entry, idx) => normalizeRunnerEntry(entry, idx));
-      return;
+    if (!entries.length) {
+      const globalManifest = (typeof window !== "undefined" && window.RUNNER_MANIFEST) ? window.RUNNER_MANIFEST : null;
+      entries = Array.isArray(globalManifest?.entries) ? globalManifest.entries : [];
     }
 
-    throw new Error("manifest empty");
+    if (!entries.length) {
+      throw new Error("manifest empty");
+    }
+
+    state.runnerDefs = entries.slice(0, TOTAL_STARTERS).map((entry, idx) => normalizeRunnerEntry(entry, idx));
   } catch (_err) {
     state.runnerDefs = getDefaultRunnerDefs();
   }
 }
-
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
@@ -1561,7 +1563,8 @@ function finishStage() {
   const eliminationDone = loser
     ? (() => {
         const line = document.createElement("li");
-        line.textContent = `שלב ${state.stage}: ${loser.name} אחרון ולכן הודח`;
+        const eliminatedWord = loser.gender === "f" ? "הודחה" : "הודח";
+        line.textContent = `שלב ${state.stage}: ${loser.name} אחרון ולכן ${eliminatedWord}`;
         eliminationLogEl.appendChild(line);
         state.eliminationSpotlight = {
           runner: loser,
@@ -1990,6 +1993,8 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+
 
 
 
