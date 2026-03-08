@@ -1533,9 +1533,9 @@ function drawEliminationSpotlight() {
   ctx.textAlign = "center";
   ctx.font = "bold 42px Segoe UI";
   const eliminatedLabel = runner.gender === "f" ? "הודחה" : "הודח";
+  ctx.fillText(eliminatedLabel, cx, cy + 155);
   ctx.font = "bold 34px Segoe UI";
   ctx.fillText(runner.name, cx, cy + 198);
-}
 
 function draw() {
   drawBg();
